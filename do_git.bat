@@ -12,13 +12,9 @@ echo       a.  Add the .gitignore file to you Unity project.
 echo       b.  The README.md file is created from this batch file.
 echo ----------------------------------------------------------------------------
 echo.
-
-@echo on
 set GIT_TRACE_PACKET=1
 set GIT_TRACE=1
 set GIT_CURL_VERBOSE=1
-@echo off
-
 
 rem ----------------------------------------------------------------------------
 rem  Configure some git settings.
@@ -60,7 +56,7 @@ rem  - Set the remote origin
 rem  - Push to the remote repository
 rem  - Show the status
 rem ----------------------------------------------------------------------------
-@echo on
+rem @echo on
 git config --global --add safe.directory %local_directory%
 git config --global user.email "randall_price@hotmail.com"
 git config --global user.name  "Randall Price"
@@ -93,7 +89,6 @@ git branch -M master
 git remote add origin %remote_origin%
 git push -u origin master
 git status
-@echo off
 
 echo.
 echo First time configuration:
@@ -109,20 +104,21 @@ rem      Example:  Added Part 1 - Spaceship Controls and Part 2 - Bullets.
 rem  - Add and commit the changes
 rem  - Push to the remote repository
 rem ----------------------------------------------------------------------------
-set /p commit_message= "Enter commit message for the ADD (Q to Quit):  "
-echo You entered:  %commit_message%
-if "%commit_message%"=="q" goto Done
-if "%commit_message%"=="Q" goto Done
+set "defaultValue=Initial project upload."
+set /p "commit_message=Enter commit message (Enter = <%defaultValue%>, Q = Quit):  "
+if not defined commit_message ( set "commit_message=%defaultValue%" )
+echo You entered: %commit_message%
+if /I "%commit_message%"=="q" goto Done
 
-@echo on
+rem @echo on
 git pull origin master
 git add .
 git commit -m "%commit_message%"
 git push -u origin master
-@echo off
+rem @echo off
 
 echo.
-echo - Changed files committed and pushed to remote repository successfully.
+echo - Changed files successfully committed and pushed to remote repository .
 echo.
 
 :Done
